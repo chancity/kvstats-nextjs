@@ -36,10 +36,10 @@ const baseConfig = {
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      react: 'preact/compat',
+/*      react: 'preact/compat',
       react$: 'preact/compat',
       'react-dom': 'preact/compat',
-      'react-dom$': 'preact/compat',
+      'react-dom$': 'preact/compat',*/
     };
 
     config.module = config.module || {};

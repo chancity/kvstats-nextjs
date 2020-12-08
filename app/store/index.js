@@ -1,12 +1,16 @@
 import {persistReducer, persistStore} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import {LoggerMiddleware, PromiseMiddleware} from './_middleware';
 
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createWrapper} from 'next-redux-wrapper';
+import addAddressForm from '../forms/addAddress';
 
-const reducers = {};
+const reducers = {
+  [addAddressForm.formName]: addAddressForm.reducer
+};
 
 const makeConfiguredStore = (reducer) => {
   return createStore(
@@ -29,6 +33,7 @@ export const makeStore = (/* {AppTree, Component, router, ctx} */) => {
 
   const persistConfig = {
     key: 'nextjs',
+    storage,
     blacklist: [],
     version: -1,
   };

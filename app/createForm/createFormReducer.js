@@ -14,14 +14,12 @@ import {
 
 import createInitialState from './createInitialState';
 import createErrorSelector from './createErrorSelector';
-import createPersistReducer from './createPersistReducer';
 import createReducer from './createReducer';
 import createReplaceSelector from './createReplaceSelector';
 
-export default ({
+const createFormReducer = ({
                   formName,
                   fields,
-                  persist = true,
                   customHasErrors,
                   customReducer,
                 }) => {
@@ -46,8 +44,6 @@ export default ({
   const createFormChangeValueType = (key) =>
     createChangeValueType(formName, key);
 
-  const persistReducer = createPersistReducer(initialState, formName);
-
   const reducer = createReducer(
     initialState,
     errorSelector,
@@ -63,13 +59,12 @@ export default ({
 
   const mergedReducer = (state = initialState, action) => {
     const newState = hasCustomReducer ? customReducer(state, action) : state;
-
-    return persist
-      ? reducer(persistReducer(newState, action), action)
-      : reducer(newState, action);
+    return reducer(newState, action);
   };
 
   return {
+    formName,
+    fields,
     reducer: mergedReducer,
     invalidateForm,
     validateForm,
@@ -80,5 +75,8 @@ export default ({
     VALIDATE_FORM,
     RESET_FORM,
     SET_FORM_FIELDS,
+    initialState
   };
 };
+
+export default createFormReducer;
